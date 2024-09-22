@@ -1,0 +1,11 @@
+http://www.example.com:8080/path/to/resource?param1=value1&param2=value2
+https://secure.example.com/path/file.html
+ftp://ftp.example.com/files/file.txt
+mailto:contact@example.com
+file:///path/to/local/file.html
+ftp://user:pass123@ftp.example.com/path/to/resource.txt
+http://user:pass@sub.example.com:9090/documents/index.html?search=query#top
+https://example.org:8443/api/v1/resource?query1=value1&query2=value2#fragment
+ftp://anonymous
+@ftp.example.net/pub/files/archive.zip
+file:///Users/username/Documents/notes.txt

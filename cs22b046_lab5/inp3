@@ -1,0 +1,17 @@
+rem = a % 6;
+r0 = (a * b) + c - (b / a);
+r1 = (x / y) * z - (x % y);
+r2 = ((a - b) * c) / (a + b);
+rem = a % 2.5;
+r3 = (x + y * z;
+diff = x y;
+r4 = -x * y + (x - y) * 2; 
+a = 5 + 3;
+result = (10 - 2) * 3;
+x = 4 * (3 + 2) / 5;
+y = (5 + 7 * 2;
+diff = x y;
+result = 10 / 1000; 
+remainder = 10 % 10;
+result = 10.5 % 3;
+

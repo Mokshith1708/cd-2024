@@ -1,0 +1,11 @@
+int main() {
+    printf("Hello, World!\n");
+    float a =10.022;
+    int a1 = 10;
+    float a2 = 19.666;
+    if(a1==a)
+    {
+    printf("hi");
+    }
+    return 0;
+}
