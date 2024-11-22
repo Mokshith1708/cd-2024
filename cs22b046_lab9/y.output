@@ -1,0 +1,2284 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: O P stmt_list
+
+    2 stmt_list: stmt_list M stmt
+    3          | stmt
+
+    4 stmt: DECLARE_STMT ';'
+    5     | ASSIGN_STMT ';'
+    6     | CONTROL_FLOW_STMT
+    7     | LB Q stmt_list RB
+    8     | LB RB
+    9     | expr ';'
+   10     | error
+
+   11 DECLARE_STMT: B A comp
+
+   12 comp: LS NUMBER RS comp
+   13     | ε
+
+   14 A: A ',' IDENTIFIER ASSIGN expr
+   15  | A ',' IDENTIFIER
+   16  | IDENTIFIER
+   17  | IDENTIFIER ASSIGN expr
+
+   18 CONTROL_FLOW_STMT: IF '(' expr ')' M stmt
+   19                  | IF '(' expr ')' M stmt ELSE N M stmt
+   20                  | WHILE M '(' expr ')' M stmt
+   21                  | IF '(' ')'
+
+   22 ASSIGN_STMT: expr ASSIGN expr
+
+   23 B: INT
+   24  | FLOAT
+   25  | CHAR
+
+   26 ASSIGN: EQ
+   27       | PEQ
+   28       | MEQ
+   29       | MLEQ
+   30       | DEQ
+
+   31 expr: expr '+' expr
+   32     | expr '-' expr
+   33     | expr '*' expr
+   34     | expr '/' expr
+   35     | expr '%' expr
+   36     | '(' expr ')'
+   37     | expr GT expr
+   38     | expr LT expr
+   39     | expr GTE expr
+   40     | expr LTE expr
+   41     | expr NE expr
+   42     | expr EE expr
+   43     | expr AND M expr
+   44     | expr OR N expr
+   45     | NN expr
+   46     | '(' expr error
+   47     | term
+   48     | T
+   49     | F
+
+   50 N: ε
+
+   51 M: ε
+
+   52 O: ε
+
+   53 P: ε
+
+   54 Q: ε
+
+   55 term: UM IDENTIFIER
+   56     | IDENTIFIER
+   57     | UM DOUBLE IDENTIFIER
+   58     | DOUBLE IDENTIFIER
+   59     | UM IDENTIFIER DOUBLE
+   60     | IDENTIFIER DOUBLE
+   61     | UM NUMBER
+   62     | NUMBER
+   63     | UM DOUBLE IDENTIFIER DOUBLE
+   64     | UM PP NUMBER
+   65     | UM MM NUMBER
+   66     | UM NUMBER PP
+   67     | UM NUMBER MM
+   68     | UM DOUBLE IDENTIFIER IDENTIFIER
+   69     | UM IDENTIFIER DOUBLE IDENTIFIER
+   70     | UM DOUBLE IDENTIFIER NUMBER
+   71     | UM IDENTIFIER DOUBLE NUMBER
+   72     | UM NUMBER IDENTIFIER
+   73     | UM IDENTIFIER NUMBER
+   74     | UM IDENTIFIER DOUBLE DOUBLE
+   75     | DOUBLE IDENTIFIER DOUBLE
+   76     | PP NUMBER
+   77     | MM NUMBER
+   78     | NUMBER PP
+   79     | NUMBER MM
+   80     | DOUBLE IDENTIFIER IDENTIFIER
+   81     | IDENTIFIER DOUBLE IDENTIFIER
+   82     | DOUBLE IDENTIFIER NUMBER
+   83     | IDENTIFIER DOUBLE NUMBER
+   84     | NUMBER IDENTIFIER
+   85     | IDENTIFIER NUMBER
+   86     | IDENTIFIER DOUBLE DOUBLE
+
+   87 UM: '-'
+
+   88 DOUBLE: PP
+   89       | MM
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '%' (37) 35
+    '(' (40) 18 19 20 21 36 46
+    ')' (41) 18 19 20 21 36
+    '*' (42) 33
+    '+' (43) 31
+    ',' (44) 14 15
+    '-' (45) 32 87
+    '/' (47) 34
+    ';' (59) 4 5 9
+    error (256) 10 46
+    IDENTIFIER <value> (258) 14 15 16 17 55 56 57 58 59 60 63 68 69 70 71 72 73 74 75 80 81 82 83 84 85 86
+    NUMBER <value> (259) 12 61 62 64 65 66 67 70 71 72 73 76 77 78 79 82 83 84 85
+    EQ <value> (260) 26
+    PEQ <value> (261) 27
+    MEQ <value> (262) 28
+    MLEQ <value> (263) 29
+    DEQ <value> (264) 30
+    MM <value> (265) 65 67 77 79 89
+    PP <value> (266) 64 66 76 78 88
+    LB <value> (267) 7 8
+    RB <value> (268) 7 8
+    GT <value> (269) 37
+    LT <value> (270) 38
+    GTE <value> (271) 39
+    LTE <value> (272) 40
+    NE <value> (273) 41
+    EE <value> (274) 42
+    AND <value> (275) 43
+    OR <value> (276) 44
+    IF <value> (277) 18 19 21
+    ELSE <value> (278) 19
+    T <value> (279) 48
+    F <value> (280) 49
+    WHILE <value> (281) 20
+    NN <value> (282) 45
+    INT <value> (283) 23
+    FLOAT <value> (284) 24
+    CHAR <value> (285) 25
+    LS <value> (286) 12
+    RS <value> (287) 12
+
+
+Nonterminals, with rules where they appear
+
+    $accept (42)
+        on left: 0
+    program (43)
+        on left: 1
+        on right: 0
+    stmt_list <node> (44)
+        on left: 2 3
+        on right: 1 2 7
+    stmt <node> (45)
+        on left: 4 5 6 7 8 9 10
+        on right: 2 3 18 19 20
+    DECLARE_STMT (46)
+        on left: 11
+        on right: 4
+    comp <type> (47)
+        on left: 12 13
+        on right: 11 12
+    A (48)
+        on left: 14 15 16 17
+        on right: 11 14 15
+    CONTROL_FLOW_STMT <node> (49)
+        on left: 18 19 20 21
+        on right: 6
+    ASSIGN_STMT <node> (50)
+        on left: 22
+        on right: 5
+    B <type> (51)
+        on left: 23 24 25
+        on right: 11
+    ASSIGN <node> (52)
+        on left: 26 27 28 29 30
+        on right: 14 17 22
+    expr <node> (53)
+        on left: 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+        on right: 9 14 17 18 19 20 22 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+    N <instr> (54)
+        on left: 50
+        on right: 19 44
+    M <instr> (55)
+        on left: 51
+        on right: 2 18 19 20 43
+    O (56)
+        on left: 52
+        on right: 1
+    P (57)
+        on left: 53
+        on right: 1
+    Q (58)
+        on left: 54
+        on right: 7
+    term <node> (59)
+        on left: 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86
+        on right: 47
+    UM <node> (60)
+        on left: 87
+        on right: 55 57 59 61 63 64 65 66 67 68 69 70 71 72 73 74
+    DOUBLE <node> (61)
+        on left: 88 89
+        on right: 57 58 59 60 63 68 69 70 71 74 75 80 81 82 83 86
+
+
+State 0
+
+    0 $accept: • program $end
+
+    $default  reduce using rule 52 (O)
+
+    program  go to state 1
+    O        go to state 2
+
+
+State 1
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 3
+
+
+State 2
+
+    1 program: O • P stmt_list
+
+    $default  reduce using rule 53 (P)
+
+    P  go to state 4
+
+
+State 3
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 4
+
+    1 program: O P • stmt_list
+
+    error       shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    LB          shift, and go to state 10
+    IF          shift, and go to state 11
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    WHILE       shift, and go to state 14
+    NN          shift, and go to state 15
+    INT         shift, and go to state 16
+    FLOAT       shift, and go to state 17
+    CHAR        shift, and go to state 18
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    stmt_list          go to state 21
+    stmt               go to state 22
+    DECLARE_STMT       go to state 23
+    CONTROL_FLOW_STMT  go to state 24
+    ASSIGN_STMT        go to state 25
+    B                  go to state 26
+    expr               go to state 27
+    term               go to state 28
+    UM                 go to state 29
+    DOUBLE             go to state 30
+
+
+State 5
+
+   10 stmt: error •
+
+    $default  reduce using rule 10 (stmt)
+
+
+State 6
+
+   56 term: IDENTIFIER •
+   60     | IDENTIFIER • DOUBLE
+   81     | IDENTIFIER • DOUBLE IDENTIFIER
+   83     | IDENTIFIER • DOUBLE NUMBER
+   85     | IDENTIFIER • NUMBER
+   86     | IDENTIFIER • DOUBLE DOUBLE
+
+    NUMBER  shift, and go to state 31
+    MM      shift, and go to state 32
+    PP      shift, and go to state 33
+
+    $default  reduce using rule 56 (term)
+
+    DOUBLE  go to state 34
+
+
+State 7
+
+   62 term: NUMBER •
+   78     | NUMBER • PP
+   79     | NUMBER • MM
+   84     | NUMBER • IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 35
+    MM          shift, and go to state 36
+    PP          shift, and go to state 37
+
+    $default  reduce using rule 62 (term)
+
+
+State 8
+
+   77 term: MM • NUMBER
+   89 DOUBLE: MM •
+
+    NUMBER  shift, and go to state 38
+
+    $default  reduce using rule 89 (DOUBLE)
+
+
+State 9
+
+   76 term: PP • NUMBER
+   88 DOUBLE: PP •
+
+    NUMBER  shift, and go to state 39
+
+    $default  reduce using rule 88 (DOUBLE)
+
+
+State 10
+
+    7 stmt: LB • Q stmt_list RB
+    8     | LB • RB
+
+    RB  shift, and go to state 40
+
+    $default  reduce using rule 54 (Q)
+
+    Q  go to state 41
+
+
+State 11
+
+   18 CONTROL_FLOW_STMT: IF • '(' expr ')' M stmt
+   19                  | IF • '(' expr ')' M stmt ELSE N M stmt
+   21                  | IF • '(' ')'
+
+    '('  shift, and go to state 42
+
+
+State 12
+
+   48 expr: T •
+
+    $default  reduce using rule 48 (expr)
+
+
+State 13
+
+   49 expr: F •
+
+    $default  reduce using rule 49 (expr)
+
+
+State 14
+
+   20 CONTROL_FLOW_STMT: WHILE • M '(' expr ')' M stmt
+
+    $default  reduce using rule 51 (M)
+
+    M  go to state 43
+
+
+State 15
+
+   45 expr: NN • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 44
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 16
+
+   23 B: INT •
+
+    $default  reduce using rule 23 (B)
+
+
+State 17
+
+   24 B: FLOAT •
+
+    $default  reduce using rule 24 (B)
+
+
+State 18
+
+   25 B: CHAR •
+
+    $default  reduce using rule 25 (B)
+
+
+State 19
+
+   87 UM: '-' •
+
+    $default  reduce using rule 87 (UM)
+
+
+State 20
+
+   36 expr: '(' • expr ')'
+   46     | '(' • expr error
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 45
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 21
+
+    1 program: O P stmt_list •
+    2 stmt_list: stmt_list • M stmt
+
+    $end      reduce using rule 1 (program)
+    $default  reduce using rule 51 (M)
+
+    M  go to state 46
+
+
+State 22
+
+    3 stmt_list: stmt •
+
+    $default  reduce using rule 3 (stmt_list)
+
+
+State 23
+
+    4 stmt: DECLARE_STMT • ';'
+
+    ';'  shift, and go to state 47
+
+
+State 24
+
+    6 stmt: CONTROL_FLOW_STMT •
+
+    $default  reduce using rule 6 (stmt)
+
+
+State 25
+
+    5 stmt: ASSIGN_STMT • ';'
+
+    ';'  shift, and go to state 48
+
+
+State 26
+
+   11 DECLARE_STMT: B • A comp
+
+    IDENTIFIER  shift, and go to state 49
+
+    A  go to state 50
+
+
+State 27
+
+    9 stmt: expr • ';'
+   22 ASSIGN_STMT: expr • ASSIGN expr
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    EQ    shift, and go to state 51
+    PEQ   shift, and go to state 52
+    MEQ   shift, and go to state 53
+    MLEQ  shift, and go to state 54
+    DEQ   shift, and go to state 55
+    GT    shift, and go to state 56
+    LT    shift, and go to state 57
+    GTE   shift, and go to state 58
+    LTE   shift, and go to state 59
+    NE    shift, and go to state 60
+    EE    shift, and go to state 61
+    AND   shift, and go to state 62
+    OR    shift, and go to state 63
+    '+'   shift, and go to state 64
+    '-'   shift, and go to state 65
+    '*'   shift, and go to state 66
+    '/'   shift, and go to state 67
+    '%'   shift, and go to state 68
+    ';'   shift, and go to state 69
+
+    ASSIGN  go to state 70
+
+
+State 28
+
+   47 expr: term •
+
+    $default  reduce using rule 47 (expr)
+
+
+State 29
+
+   55 term: UM • IDENTIFIER
+   57     | UM • DOUBLE IDENTIFIER
+   59     | UM • IDENTIFIER DOUBLE
+   61     | UM • NUMBER
+   63     | UM • DOUBLE IDENTIFIER DOUBLE
+   64     | UM • PP NUMBER
+   65     | UM • MM NUMBER
+   66     | UM • NUMBER PP
+   67     | UM • NUMBER MM
+   68     | UM • DOUBLE IDENTIFIER IDENTIFIER
+   69     | UM • IDENTIFIER DOUBLE IDENTIFIER
+   70     | UM • DOUBLE IDENTIFIER NUMBER
+   71     | UM • IDENTIFIER DOUBLE NUMBER
+   72     | UM • NUMBER IDENTIFIER
+   73     | UM • IDENTIFIER NUMBER
+   74     | UM • IDENTIFIER DOUBLE DOUBLE
+
+    IDENTIFIER  shift, and go to state 71
+    NUMBER      shift, and go to state 72
+    MM          shift, and go to state 73
+    PP          shift, and go to state 74
+
+    DOUBLE  go to state 75
+
+
+State 30
+
+   58 term: DOUBLE • IDENTIFIER
+   75     | DOUBLE • IDENTIFIER DOUBLE
+   80     | DOUBLE • IDENTIFIER IDENTIFIER
+   82     | DOUBLE • IDENTIFIER NUMBER
+
+    IDENTIFIER  shift, and go to state 76
+
+
+State 31
+
+   85 term: IDENTIFIER NUMBER •
+
+    $default  reduce using rule 85 (term)
+
+
+State 32
+
+   89 DOUBLE: MM •
+
+    $default  reduce using rule 89 (DOUBLE)
+
+
+State 33
+
+   88 DOUBLE: PP •
+
+    $default  reduce using rule 88 (DOUBLE)
+
+
+State 34
+
+   60 term: IDENTIFIER DOUBLE •
+   81     | IDENTIFIER DOUBLE • IDENTIFIER
+   83     | IDENTIFIER DOUBLE • NUMBER
+   86     | IDENTIFIER DOUBLE • DOUBLE
+
+    IDENTIFIER  shift, and go to state 77
+    NUMBER      shift, and go to state 78
+    MM          shift, and go to state 32
+    PP          shift, and go to state 33
+
+    $default  reduce using rule 60 (term)
+
+    DOUBLE  go to state 79
+
+
+State 35
+
+   84 term: NUMBER IDENTIFIER •
+
+    $default  reduce using rule 84 (term)
+
+
+State 36
+
+   79 term: NUMBER MM •
+
+    $default  reduce using rule 79 (term)
+
+
+State 37
+
+   78 term: NUMBER PP •
+
+    $default  reduce using rule 78 (term)
+
+
+State 38
+
+   77 term: MM NUMBER •
+
+    $default  reduce using rule 77 (term)
+
+
+State 39
+
+   76 term: PP NUMBER •
+
+    $default  reduce using rule 76 (term)
+
+
+State 40
+
+    8 stmt: LB RB •
+
+    $default  reduce using rule 8 (stmt)
+
+
+State 41
+
+    7 stmt: LB Q • stmt_list RB
+
+    error       shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    LB          shift, and go to state 10
+    IF          shift, and go to state 11
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    WHILE       shift, and go to state 14
+    NN          shift, and go to state 15
+    INT         shift, and go to state 16
+    FLOAT       shift, and go to state 17
+    CHAR        shift, and go to state 18
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    stmt_list          go to state 80
+    stmt               go to state 22
+    DECLARE_STMT       go to state 23
+    CONTROL_FLOW_STMT  go to state 24
+    ASSIGN_STMT        go to state 25
+    B                  go to state 26
+    expr               go to state 27
+    term               go to state 28
+    UM                 go to state 29
+    DOUBLE             go to state 30
+
+
+State 42
+
+   18 CONTROL_FLOW_STMT: IF '(' • expr ')' M stmt
+   19                  | IF '(' • expr ')' M stmt ELSE N M stmt
+   21                  | IF '(' • ')'
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+    ')'         shift, and go to state 81
+
+    expr    go to state 82
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 43
+
+   20 CONTROL_FLOW_STMT: WHILE M • '(' expr ')' M stmt
+
+    '('  shift, and go to state 83
+
+
+State 44
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+   45     | NN expr •
+
+    $default  reduce using rule 45 (expr)
+
+
+State 45
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   36     | '(' expr • ')'
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+   46     | '(' expr • error
+
+    error  shift, and go to state 84
+    GT     shift, and go to state 56
+    LT     shift, and go to state 57
+    GTE    shift, and go to state 58
+    LTE    shift, and go to state 59
+    NE     shift, and go to state 60
+    EE     shift, and go to state 61
+    AND    shift, and go to state 62
+    OR     shift, and go to state 63
+    '+'    shift, and go to state 64
+    '-'    shift, and go to state 65
+    '*'    shift, and go to state 66
+    '/'    shift, and go to state 67
+    '%'    shift, and go to state 68
+    ')'    shift, and go to state 85
+
+
+State 46
+
+    2 stmt_list: stmt_list M • stmt
+
+    error       shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    LB          shift, and go to state 10
+    IF          shift, and go to state 11
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    WHILE       shift, and go to state 14
+    NN          shift, and go to state 15
+    INT         shift, and go to state 16
+    FLOAT       shift, and go to state 17
+    CHAR        shift, and go to state 18
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    stmt               go to state 86
+    DECLARE_STMT       go to state 23
+    CONTROL_FLOW_STMT  go to state 24
+    ASSIGN_STMT        go to state 25
+    B                  go to state 26
+    expr               go to state 27
+    term               go to state 28
+    UM                 go to state 29
+    DOUBLE             go to state 30
+
+
+State 47
+
+    4 stmt: DECLARE_STMT ';' •
+
+    $default  reduce using rule 4 (stmt)
+
+
+State 48
+
+    5 stmt: ASSIGN_STMT ';' •
+
+    $default  reduce using rule 5 (stmt)
+
+
+State 49
+
+   16 A: IDENTIFIER •
+   17  | IDENTIFIER • ASSIGN expr
+
+    EQ    shift, and go to state 51
+    PEQ   shift, and go to state 52
+    MEQ   shift, and go to state 53
+    MLEQ  shift, and go to state 54
+    DEQ   shift, and go to state 55
+
+    $default  reduce using rule 16 (A)
+
+    ASSIGN  go to state 87
+
+
+State 50
+
+   11 DECLARE_STMT: B A • comp
+   14 A: A • ',' IDENTIFIER ASSIGN expr
+   15  | A • ',' IDENTIFIER
+
+    LS   shift, and go to state 88
+    ','  shift, and go to state 89
+
+    $default  reduce using rule 13 (comp)
+
+    comp  go to state 90
+
+
+State 51
+
+   26 ASSIGN: EQ •
+
+    $default  reduce using rule 26 (ASSIGN)
+
+
+State 52
+
+   27 ASSIGN: PEQ •
+
+    $default  reduce using rule 27 (ASSIGN)
+
+
+State 53
+
+   28 ASSIGN: MEQ •
+
+    $default  reduce using rule 28 (ASSIGN)
+
+
+State 54
+
+   29 ASSIGN: MLEQ •
+
+    $default  reduce using rule 29 (ASSIGN)
+
+
+State 55
+
+   30 ASSIGN: DEQ •
+
+    $default  reduce using rule 30 (ASSIGN)
+
+
+State 56
+
+   37 expr: expr GT • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 91
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 57
+
+   38 expr: expr LT • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 92
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 58
+
+   39 expr: expr GTE • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 93
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 59
+
+   40 expr: expr LTE • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 94
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 60
+
+   41 expr: expr NE • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 95
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 61
+
+   42 expr: expr EE • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 96
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 62
+
+   43 expr: expr AND • M expr
+
+    $default  reduce using rule 51 (M)
+
+    M  go to state 97
+
+
+State 63
+
+   44 expr: expr OR • N expr
+
+    $default  reduce using rule 50 (N)
+
+    N  go to state 98
+
+
+State 64
+
+   31 expr: expr '+' • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 99
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 65
+
+   32 expr: expr '-' • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 100
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 66
+
+   33 expr: expr '*' • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 101
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 67
+
+   34 expr: expr '/' • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 102
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 68
+
+   35 expr: expr '%' • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 103
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 69
+
+    9 stmt: expr ';' •
+
+    $default  reduce using rule 9 (stmt)
+
+
+State 70
+
+   22 ASSIGN_STMT: expr ASSIGN • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 104
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 71
+
+   55 term: UM IDENTIFIER •
+   59     | UM IDENTIFIER • DOUBLE
+   69     | UM IDENTIFIER • DOUBLE IDENTIFIER
+   71     | UM IDENTIFIER • DOUBLE NUMBER
+   73     | UM IDENTIFIER • NUMBER
+   74     | UM IDENTIFIER • DOUBLE DOUBLE
+
+    NUMBER  shift, and go to state 105
+    MM      shift, and go to state 32
+    PP      shift, and go to state 33
+
+    $default  reduce using rule 55 (term)
+
+    DOUBLE  go to state 106
+
+
+State 72
+
+   61 term: UM NUMBER •
+   66     | UM NUMBER • PP
+   67     | UM NUMBER • MM
+   72     | UM NUMBER • IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 107
+    MM          shift, and go to state 108
+    PP          shift, and go to state 109
+
+    $default  reduce using rule 61 (term)
+
+
+State 73
+
+   65 term: UM MM • NUMBER
+   89 DOUBLE: MM •
+
+    NUMBER  shift, and go to state 110
+
+    $default  reduce using rule 89 (DOUBLE)
+
+
+State 74
+
+   64 term: UM PP • NUMBER
+   88 DOUBLE: PP •
+
+    NUMBER  shift, and go to state 111
+
+    $default  reduce using rule 88 (DOUBLE)
+
+
+State 75
+
+   57 term: UM DOUBLE • IDENTIFIER
+   63     | UM DOUBLE • IDENTIFIER DOUBLE
+   68     | UM DOUBLE • IDENTIFIER IDENTIFIER
+   70     | UM DOUBLE • IDENTIFIER NUMBER
+
+    IDENTIFIER  shift, and go to state 112
+
+
+State 76
+
+   58 term: DOUBLE IDENTIFIER •
+   75     | DOUBLE IDENTIFIER • DOUBLE
+   80     | DOUBLE IDENTIFIER • IDENTIFIER
+   82     | DOUBLE IDENTIFIER • NUMBER
+
+    IDENTIFIER  shift, and go to state 113
+    NUMBER      shift, and go to state 114
+    MM          shift, and go to state 32
+    PP          shift, and go to state 33
+
+    $default  reduce using rule 58 (term)
+
+    DOUBLE  go to state 115
+
+
+State 77
+
+   81 term: IDENTIFIER DOUBLE IDENTIFIER •
+
+    $default  reduce using rule 81 (term)
+
+
+State 78
+
+   83 term: IDENTIFIER DOUBLE NUMBER •
+
+    $default  reduce using rule 83 (term)
+
+
+State 79
+
+   86 term: IDENTIFIER DOUBLE DOUBLE •
+
+    $default  reduce using rule 86 (term)
+
+
+State 80
+
+    2 stmt_list: stmt_list • M stmt
+    7 stmt: LB Q stmt_list • RB
+
+    RB  shift, and go to state 116
+
+    $default  reduce using rule 51 (M)
+
+    M  go to state 46
+
+
+State 81
+
+   21 CONTROL_FLOW_STMT: IF '(' ')' •
+
+    $default  reduce using rule 21 (CONTROL_FLOW_STMT)
+
+
+State 82
+
+   18 CONTROL_FLOW_STMT: IF '(' expr • ')' M stmt
+   19                  | IF '(' expr • ')' M stmt ELSE N M stmt
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    GT   shift, and go to state 56
+    LT   shift, and go to state 57
+    GTE  shift, and go to state 58
+    LTE  shift, and go to state 59
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+    ')'  shift, and go to state 117
+
+
+State 83
+
+   20 CONTROL_FLOW_STMT: WHILE M '(' • expr ')' M stmt
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 118
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 84
+
+   46 expr: '(' expr error •
+
+    $default  reduce using rule 46 (expr)
+
+
+State 85
+
+   36 expr: '(' expr ')' •
+
+    $default  reduce using rule 36 (expr)
+
+
+State 86
+
+    2 stmt_list: stmt_list M stmt •
+
+    $default  reduce using rule 2 (stmt_list)
+
+
+State 87
+
+   17 A: IDENTIFIER ASSIGN • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 119
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 88
+
+   12 comp: LS • NUMBER RS comp
+
+    NUMBER  shift, and go to state 120
+
+
+State 89
+
+   14 A: A ',' • IDENTIFIER ASSIGN expr
+   15  | A ',' • IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 121
+
+
+State 90
+
+   11 DECLARE_STMT: B A comp •
+
+    $default  reduce using rule 11 (DECLARE_STMT)
+
+
+State 91
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   37     | expr GT expr •
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 37 (expr)
+
+
+State 92
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   38     | expr LT expr •
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 38 (expr)
+
+
+State 93
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   39     | expr GTE expr •
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 39 (expr)
+
+
+State 94
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   40     | expr LTE expr •
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 40 (expr)
+
+
+State 95
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   41     | expr NE expr •
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE  error (nonassociative)
+    EE  error (nonassociative)
+
+    $default  reduce using rule 41 (expr)
+
+
+State 96
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   42     | expr EE expr •
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE  error (nonassociative)
+    EE  error (nonassociative)
+
+    $default  reduce using rule 42 (expr)
+
+
+State 97
+
+   43 expr: expr AND M • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 122
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 98
+
+   44 expr: expr OR N • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 123
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 99
+
+   31 expr: expr • '+' expr
+   31     | expr '+' expr •
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 31 (expr)
+
+
+State 100
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   32     | expr '-' expr •
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 32 (expr)
+
+
+State 101
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   33     | expr '*' expr •
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+
+    $default  reduce using rule 33 (expr)
+
+
+State 102
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   34     | expr '/' expr •
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+
+    $default  reduce using rule 34 (expr)
+
+
+State 103
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   35     | expr '%' expr •
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+
+    $default  reduce using rule 35 (expr)
+
+
+State 104
+
+   22 ASSIGN_STMT: expr ASSIGN expr •
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    GT   shift, and go to state 56
+    LT   shift, and go to state 57
+    GTE  shift, and go to state 58
+    LTE  shift, and go to state 59
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 22 (ASSIGN_STMT)
+
+
+State 105
+
+   73 term: UM IDENTIFIER NUMBER •
+
+    $default  reduce using rule 73 (term)
+
+
+State 106
+
+   59 term: UM IDENTIFIER DOUBLE •
+   69     | UM IDENTIFIER DOUBLE • IDENTIFIER
+   71     | UM IDENTIFIER DOUBLE • NUMBER
+   74     | UM IDENTIFIER DOUBLE • DOUBLE
+
+    IDENTIFIER  shift, and go to state 124
+    NUMBER      shift, and go to state 125
+    MM          shift, and go to state 32
+    PP          shift, and go to state 33
+
+    $default  reduce using rule 59 (term)
+
+    DOUBLE  go to state 126
+
+
+State 107
+
+   72 term: UM NUMBER IDENTIFIER •
+
+    $default  reduce using rule 72 (term)
+
+
+State 108
+
+   67 term: UM NUMBER MM •
+
+    $default  reduce using rule 67 (term)
+
+
+State 109
+
+   66 term: UM NUMBER PP •
+
+    $default  reduce using rule 66 (term)
+
+
+State 110
+
+   65 term: UM MM NUMBER •
+
+    $default  reduce using rule 65 (term)
+
+
+State 111
+
+   64 term: UM PP NUMBER •
+
+    $default  reduce using rule 64 (term)
+
+
+State 112
+
+   57 term: UM DOUBLE IDENTIFIER •
+   63     | UM DOUBLE IDENTIFIER • DOUBLE
+   68     | UM DOUBLE IDENTIFIER • IDENTIFIER
+   70     | UM DOUBLE IDENTIFIER • NUMBER
+
+    IDENTIFIER  shift, and go to state 127
+    NUMBER      shift, and go to state 128
+    MM          shift, and go to state 32
+    PP          shift, and go to state 33
+
+    $default  reduce using rule 57 (term)
+
+    DOUBLE  go to state 129
+
+
+State 113
+
+   80 term: DOUBLE IDENTIFIER IDENTIFIER •
+
+    $default  reduce using rule 80 (term)
+
+
+State 114
+
+   82 term: DOUBLE IDENTIFIER NUMBER •
+
+    $default  reduce using rule 82 (term)
+
+
+State 115
+
+   75 term: DOUBLE IDENTIFIER DOUBLE •
+
+    $default  reduce using rule 75 (term)
+
+
+State 116
+
+    7 stmt: LB Q stmt_list RB •
+
+    $default  reduce using rule 7 (stmt)
+
+
+State 117
+
+   18 CONTROL_FLOW_STMT: IF '(' expr ')' • M stmt
+   19                  | IF '(' expr ')' • M stmt ELSE N M stmt
+
+    $default  reduce using rule 51 (M)
+
+    M  go to state 130
+
+
+State 118
+
+   20 CONTROL_FLOW_STMT: WHILE M '(' expr • ')' M stmt
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    GT   shift, and go to state 56
+    LT   shift, and go to state 57
+    GTE  shift, and go to state 58
+    LTE  shift, and go to state 59
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+    ')'  shift, and go to state 131
+
+
+State 119
+
+   17 A: IDENTIFIER ASSIGN expr •
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    GT   shift, and go to state 56
+    LT   shift, and go to state 57
+    GTE  shift, and go to state 58
+    LTE  shift, and go to state 59
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 17 (A)
+
+
+State 120
+
+   12 comp: LS NUMBER • RS comp
+
+    RS  shift, and go to state 132
+
+
+State 121
+
+   14 A: A ',' IDENTIFIER • ASSIGN expr
+   15  | A ',' IDENTIFIER •
+
+    EQ    shift, and go to state 51
+    PEQ   shift, and go to state 52
+    MEQ   shift, and go to state 53
+    MLEQ  shift, and go to state 54
+    DEQ   shift, and go to state 55
+
+    $default  reduce using rule 15 (A)
+
+    ASSIGN  go to state 133
+
+
+State 122
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   43     | expr AND M expr •
+   44     | expr • OR N expr
+
+    NE  shift, and go to state 60
+    EE  shift, and go to state 61
+
+    $default  reduce using rule 43 (expr)
+
+
+State 123
+
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+   44     | expr OR N expr •
+
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+
+    $default  reduce using rule 44 (expr)
+
+
+State 124
+
+   69 term: UM IDENTIFIER DOUBLE IDENTIFIER •
+
+    $default  reduce using rule 69 (term)
+
+
+State 125
+
+   71 term: UM IDENTIFIER DOUBLE NUMBER •
+
+    $default  reduce using rule 71 (term)
+
+
+State 126
+
+   74 term: UM IDENTIFIER DOUBLE DOUBLE •
+
+    $default  reduce using rule 74 (term)
+
+
+State 127
+
+   68 term: UM DOUBLE IDENTIFIER IDENTIFIER •
+
+    $default  reduce using rule 68 (term)
+
+
+State 128
+
+   70 term: UM DOUBLE IDENTIFIER NUMBER •
+
+    $default  reduce using rule 70 (term)
+
+
+State 129
+
+   63 term: UM DOUBLE IDENTIFIER DOUBLE •
+
+    $default  reduce using rule 63 (term)
+
+
+State 130
+
+   18 CONTROL_FLOW_STMT: IF '(' expr ')' M • stmt
+   19                  | IF '(' expr ')' M • stmt ELSE N M stmt
+
+    error       shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    LB          shift, and go to state 10
+    IF          shift, and go to state 11
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    WHILE       shift, and go to state 14
+    NN          shift, and go to state 15
+    INT         shift, and go to state 16
+    FLOAT       shift, and go to state 17
+    CHAR        shift, and go to state 18
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    stmt               go to state 134
+    DECLARE_STMT       go to state 23
+    CONTROL_FLOW_STMT  go to state 24
+    ASSIGN_STMT        go to state 25
+    B                  go to state 26
+    expr               go to state 27
+    term               go to state 28
+    UM                 go to state 29
+    DOUBLE             go to state 30
+
+
+State 131
+
+   20 CONTROL_FLOW_STMT: WHILE M '(' expr ')' • M stmt
+
+    $default  reduce using rule 51 (M)
+
+    M  go to state 135
+
+
+State 132
+
+   12 comp: LS NUMBER RS • comp
+
+    LS  shift, and go to state 88
+
+    $default  reduce using rule 13 (comp)
+
+    comp  go to state 136
+
+
+State 133
+
+   14 A: A ',' IDENTIFIER ASSIGN • expr
+
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    NN          shift, and go to state 15
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    expr    go to state 137
+    term    go to state 28
+    UM      go to state 29
+    DOUBLE  go to state 30
+
+
+State 134
+
+   18 CONTROL_FLOW_STMT: IF '(' expr ')' M stmt •
+   19                  | IF '(' expr ')' M stmt • ELSE N M stmt
+
+    ELSE  shift, and go to state 138
+
+    $default  reduce using rule 18 (CONTROL_FLOW_STMT)
+
+
+State 135
+
+   20 CONTROL_FLOW_STMT: WHILE M '(' expr ')' M • stmt
+
+    error       shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    LB          shift, and go to state 10
+    IF          shift, and go to state 11
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    WHILE       shift, and go to state 14
+    NN          shift, and go to state 15
+    INT         shift, and go to state 16
+    FLOAT       shift, and go to state 17
+    CHAR        shift, and go to state 18
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    stmt               go to state 139
+    DECLARE_STMT       go to state 23
+    CONTROL_FLOW_STMT  go to state 24
+    ASSIGN_STMT        go to state 25
+    B                  go to state 26
+    expr               go to state 27
+    term               go to state 28
+    UM                 go to state 29
+    DOUBLE             go to state 30
+
+
+State 136
+
+   12 comp: LS NUMBER RS comp •
+
+    $default  reduce using rule 12 (comp)
+
+
+State 137
+
+   14 A: A ',' IDENTIFIER ASSIGN expr •
+   31 expr: expr • '+' expr
+   32     | expr • '-' expr
+   33     | expr • '*' expr
+   34     | expr • '/' expr
+   35     | expr • '%' expr
+   37     | expr • GT expr
+   38     | expr • LT expr
+   39     | expr • GTE expr
+   40     | expr • LTE expr
+   41     | expr • NE expr
+   42     | expr • EE expr
+   43     | expr • AND M expr
+   44     | expr • OR N expr
+
+    GT   shift, and go to state 56
+    LT   shift, and go to state 57
+    GTE  shift, and go to state 58
+    LTE  shift, and go to state 59
+    NE   shift, and go to state 60
+    EE   shift, and go to state 61
+    AND  shift, and go to state 62
+    OR   shift, and go to state 63
+    '+'  shift, and go to state 64
+    '-'  shift, and go to state 65
+    '*'  shift, and go to state 66
+    '/'  shift, and go to state 67
+    '%'  shift, and go to state 68
+
+    $default  reduce using rule 14 (A)
+
+
+State 138
+
+   19 CONTROL_FLOW_STMT: IF '(' expr ')' M stmt ELSE • N M stmt
+
+    $default  reduce using rule 50 (N)
+
+    N  go to state 140
+
+
+State 139
+
+   20 CONTROL_FLOW_STMT: WHILE M '(' expr ')' M stmt •
+
+    $default  reduce using rule 20 (CONTROL_FLOW_STMT)
+
+
+State 140
+
+   19 CONTROL_FLOW_STMT: IF '(' expr ')' M stmt ELSE N • M stmt
+
+    $default  reduce using rule 51 (M)
+
+    M  go to state 141
+
+
+State 141
+
+   19 CONTROL_FLOW_STMT: IF '(' expr ')' M stmt ELSE N M • stmt
+
+    error       shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    NUMBER      shift, and go to state 7
+    MM          shift, and go to state 8
+    PP          shift, and go to state 9
+    LB          shift, and go to state 10
+    IF          shift, and go to state 11
+    T           shift, and go to state 12
+    F           shift, and go to state 13
+    WHILE       shift, and go to state 14
+    NN          shift, and go to state 15
+    INT         shift, and go to state 16
+    FLOAT       shift, and go to state 17
+    CHAR        shift, and go to state 18
+    '-'         shift, and go to state 19
+    '('         shift, and go to state 20
+
+    stmt               go to state 142
+    DECLARE_STMT       go to state 23
+    CONTROL_FLOW_STMT  go to state 24
+    ASSIGN_STMT        go to state 25
+    B                  go to state 26
+    expr               go to state 27
+    term               go to state 28
+    UM                 go to state 29
+    DOUBLE             go to state 30
+
+
+State 142
+
+   19 CONTROL_FLOW_STMT: IF '(' expr ')' M stmt ELSE N M stmt •
+
+    $default  reduce using rule 19 (CONTROL_FLOW_STMT)

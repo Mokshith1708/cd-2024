@@ -1,0 +1,12 @@
+if (p > l) { 
+    y *= l;
+    while(j > l){
+        if (h <= l+o) {
+            j++;
+        } else {
+            k++;
+        }
+    }
+    j = k;
+    b++;
+} else { h = i; }

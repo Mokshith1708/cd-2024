@@ -1,0 +1,21 @@
+int a ; 
+int y=a++;
+{
+    int b,l,j,m;
+    {
+        int j = b++;
+        int u;
+        int ppp;
+        {
+        int k;
+        }
+        {   float hh;
+            int h = (int) hh;
+            int h;
+            {int o;}
+            {int u;}
+        }
+
+    }
+    int u;
+}

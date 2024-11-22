@@ -1,0 +1,12 @@
+if (g > l) { 
+    y *= l;
+    while(j > l){
+        if (h <= l) {
+            j++;
+        } else {
+            k++;
+        }
+    }
+    j = k;
+    b++;
+} else { h = i; }

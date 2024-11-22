@@ -1,0 +1,20 @@
+int g,l,h,b;
+float j = l++,i = --b;
+char arr[3][4][5];
+if (!(g+j > l)) { 
+    float y;
+    y *= l;
+    while(j > l){
+        float k;
+        if (h <= l) {
+            j++;
+        } else {
+            k++;
+        }
+    }
+    j = k;
+    b++;
+} else { 
+    int arr[4][5]; 
+    h = i; 
+}
